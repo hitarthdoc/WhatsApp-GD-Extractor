@@ -6,9 +6,16 @@ import os
 import re
 import requests
 import sys
+from pyportify.gpsoauth import google
 
 def getGoogleAccountTokenFromAuth():
-    payload = {'Email':gmail, 'Passwd':passw, 'app':client_pkg, 'client_sig':client_sig, 'parentAndroidId':devid}
+    b64_key_7_3_29 = (b"AAAAgMom/1a/v0lblO2Ubrt60J2gcuXSljGFQXgcyZWveWLEwo6prwgi3"
+                      b"iJIZdodyhKZQrNWp5nKJ3srRXcUW+F1BD3baEVGcmEgqaLZUNBjm057pK"
+                      b"RI16kB0YppeGx5qIQ5QjKzsR8ETQbKLNWgRY0QRNVz34kMJR3P/LgHax/"
+                      b"6rmf5AAAAAwEAAQ==")
+    android_key_7_3_29 = google.key_from_b64(b64_key_7_3_29)
+    encpass = google.signature(gmail, passw, android_key_7_3_29)
+    payload = {'Email':gmail, 'EncryptedPasswd':encpass, 'app':client_pkg, 'client_sig':client_sig, 'parentAndroidId':devid}
     request = requests.post('https://android.clients.google.com/auth', data=payload)
     token = re.search('Token=(.*?)\n', request.text)
     if token:
