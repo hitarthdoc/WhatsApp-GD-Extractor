@@ -26,6 +26,7 @@ v1.1 - Added Python 3 support.
 ###### TROUBLESHOOTING:
  1. Check you have the required imports installed (configparser and requests).  
      I.E.: pip install configparser requests  
+     also, pip install pyportify
 
 
 ###### CREDITS:
